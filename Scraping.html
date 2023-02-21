@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Elements Reference - Massively by HTML5 UP</title>
+		<title>Web Scraping</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -19,7 +19,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<a href="index.html" class="logo">Massively</a>
+						<a href="index.html" class="logo">PORTFOLIO</a>
 					</header>
 
 				<!-- Nav -->
@@ -52,25 +52,33 @@
 								<!-- Preformatted Code -->
 								
 									<pre><code>
-<strong>#importing all the required libraries</strong>
+<h2>Python Code</h2>
+<h4>#importing all the required libraries</h4>
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import urllib.parse
-<strong>#website to scrap</strong>
+
+<h4>#website to scrap</h4>
 website = 'https://www.whatmobile.com.pk/0_to_150001_Mobiles'
-<strong>#creating connection with website</strong>
+
+<h4>#creating connection with website</h4>
 response = requests.get(website)
 response.status_code
-<strong>#parsing the html code</strong>
+
+<h4>#parsing the html code</h4>
 soup = BeautifulSoup(response.content,'html.parser')
-<strong>#storing html code of products  in a result variable</strong>
+
+<h4>#storing html code of products  in a result variable</h4>
 results = soup.find_all('td',{'class':'BiggerText'})
-<strong>#fetching name of first product</strong>
+
+<h4>#fetching name of first product</h4>
 results[0].find('a',{'class':'BiggerText'}).get_text().replace('\n','')
-<strong>#fetching proce of first product</strong>
+
+<h4>#fetching proce of first product</h4>
 results[0].find('span',{'class':'PriceFont'}).get_text().replace('\n','')
-<strong>#Storing name,price and url in a list</strong>
+
+<h4>#Storing name,price and url in a list</h4>
 product_name = []
 product_price = []
 relative_url = []
@@ -90,17 +98,21 @@ for result in results:
         relative_url.append(result.find('a',{'class':'BiggerText'}).get('href'))
     except:
         relative_url.append('N.A')
-		<strong></strong>#creating root URL
+		<h4></h4>#creating root URL
 root_url = 'https://www.whatmobile.com.pk'
-<strong>#Combining URLs</strong>
+
+<h4>#Combining URLs</h4>
 url_combined = []
 
 for link in relative_url:
     url_combined.append(urllib.parse.urljoin(root_url,link))
-<strong>#creating dataframe and store data in variable</strong>
+
+<h4>#creating dataframe and store data in variable</h4>
 product_overview = pd.DataFrame({'Name': product_name,'Price': product_price, 'Url': url_combined})
-<strong>#saving to Excel File</strong>
+
+<h4>#saving to Excel File</h4>
 product_overview.to_excel('whatmobile.xlsx',index = 'False')
+
 
 
 </code></pre>
