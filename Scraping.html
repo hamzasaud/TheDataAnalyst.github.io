@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Elements Reference - Massively by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">Massively</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li><a href="index.html">My Projects</a></li>
+							<li><a href="practice.html">Practice Projects</a></li>
+							<li class="active"><a href="Scraping.html">Web Scraping</a></li>
+						</ul>
+						<ul class="icons">
+							<!--<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li> -->
+							<li><a href="https://www.linkedin.com/in/syed-hamza-saud-8b6968126/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<span class="date">February 21, 2023</span>
+									<h1>WhatMobile<br />
+									Product Scraping</h1>
+								</header>
+
+								<!-- Preformatted Code -->
+								
+									<pre><code>
+<strong>#importing all the required libraries</strong>
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+import urllib.parse
+<strong>#website to scrap</strong>
+website = 'https://www.whatmobile.com.pk/0_to_150001_Mobiles'
+<strong>#creating connection with website</strong>
+response = requests.get(website)
+response.status_code
+<strong>#parsing the html code</strong>
+soup = BeautifulSoup(response.content,'html.parser')
+<strong>#storing html code of products  in a result variable</strong>
+results = soup.find_all('td',{'class':'BiggerText'})
+<strong>#fetching name of first product</strong>
+results[0].find('a',{'class':'BiggerText'}).get_text().replace('\n','')
+<strong>#fetching proce of first product</strong>
+results[0].find('span',{'class':'PriceFont'}).get_text().replace('\n','')
+<strong>#Storing name,price and url in a list</strong>
+product_name = []
+product_price = []
+relative_url = []
+for result in results:
+    #name
+    try:
+        product_name.append(result.find('a',{'class':'BiggerText'}).get_text().replace('\n',''))
+    except:
+        product_name.append('N.A')
+    #price
+    try:
+        product_price.append(result.find('span',{'class':'PriceFont'}).get_text().replace('\n',''))
+    except:
+        product_price.append('N.A')
+    #relative_url
+    try:
+        relative_url.append(result.find('a',{'class':'BiggerText'}).get('href'))
+    except:
+        relative_url.append('N.A')
+		<strong></strong>#creating root URL
+root_url = 'https://www.whatmobile.com.pk'
+<strong>#Combining URLs</strong>
+url_combined = []
+
+for link in relative_url:
+    url_combined.append(urllib.parse.urljoin(root_url,link))
+<strong>#creating dataframe and store data in variable</strong>
+product_overview = pd.DataFrame({'Name': product_name,'Price': product_price, 'Url': url_combined})
+<strong>#saving to Excel File</strong>
+product_overview.to_excel('whatmobile.xlsx',index = 'False')
+
+
+</code></pre>
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					
+
+			</div>
+
+
+
+	</body>
+</html>
